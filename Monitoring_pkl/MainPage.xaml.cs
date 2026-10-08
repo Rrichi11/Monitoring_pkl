@@ -2,23 +2,36 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object? sender, EventArgs e)
+        private async void OnLoginClicked(object? sender, EventArgs e)
         {
-            count++;
+            MessageLabel.IsVisible = false;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
+            var username = UsernameEntry.Text?.Trim();
+            var password = PasswordEntry.Text ?? string.Empty;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageLabel.Text = "Enter username and password.";
+                MessageLabel.IsVisible = true;
+                return;
+            }
+
+            // Simple demo validation — replace with real authentication
+            if (username == "admin" && password == "password")
+            {
+                await DisplayAlert("Success", "Login successful.", "OK");
+                // TODO: navigate to the app main page
+            }
             else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            {
+                MessageLabel.Text = "Invalid username or password.";
+                MessageLabel.IsVisible = true;
+            }
         }
     }
 }
